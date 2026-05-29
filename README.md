@@ -1,24 +1,36 @@
-Fluxo completo da API
-1. Criar usuário comum
-POST /usuarios
+# Fluxo completo da API
+
+## 1. Criar usuário comum
+
+### POST /usuarios
+
+```json
 {
     "nome": "Gabriel",
     "email": "gabriel@gmail.com"
 }
+```
 
 Resposta:
 
+```json
 {
     "id": 1,
     "nome": "Gabriel",
     "email": "gabriel@gmail.com",
     "admin": false
 }
-2. Listar usuários
-GET /usuarios
+```
+
+---
+
+## 2. Listar usuários
+
+### GET /usuarios
 
 Retorna:
 
+```json
 [
     {
         "id": 1,
@@ -27,19 +39,32 @@ Retorna:
         "admin": false
     }
 ]
-3. Transformar usuário em administrador
-PATCH /usuarios/1/admin
+```
+
+---
+
+## 3. Transformar usuário em administrador
+
+### PATCH /usuarios/1/admin
 
 Retorna:
 
+```json
 {
     "id": 1,
     "nome": "Gabriel",
     "email": "gabriel@gmail.com",
     "admin": true
 }
-4. Criar livro
-POST /livros
+```
+
+---
+
+## 4. Criar livro
+
+### POST /livros
+
+```json
 {
     "usuarioId": 1,
     "nome": "Pequeno Príncipe",
@@ -47,9 +72,11 @@ POST /livros
     "editora": "Glins",
     "genero": "Infantil"
 }
+```
 
 Resposta:
 
+```json
 {
     "id": 1,
     "nome": "Pequeno Príncipe",
@@ -57,8 +84,15 @@ Resposta:
     "editora": "Glins",
     "genero": "Infantil"
 }
-5. Criar segundo livro
-POST /livros
+```
+
+---
+
+## 5. Criar segundo livro
+
+### POST /livros
+
+```json
 {
     "usuarioId": 1,
     "nome": "Clean Code",
@@ -66,11 +100,17 @@ POST /livros
     "editora": "Prentice Hall",
     "genero": "Tecnologia"
 }
-6. Listar livros
-GET /livros
+```
+
+---
+
+## 6. Listar livros
+
+### GET /livros
 
 Retorna:
 
+```json
 [
     {
         "id": 1,
@@ -87,32 +127,50 @@ Retorna:
         "genero": "Tecnologia"
     }
 ]
-7. Criar usuário leitor
-POST /usuarios
+```
+
+---
+
+## 7. Criar usuário leitor
+
+### POST /usuarios
+
+```json
 {
     "nome": "Maria",
     "email": "maria@gmail.com"
 }
+```
 
 Resposta:
 
+```json
 {
     "id": 2,
     "nome": "Maria",
     "email": "maria@gmail.com",
     "admin": false
 }
-8. Avaliar um livro
-POST /avaliacoes
+```
+
+---
+
+## 8. Avaliar um livro
+
+### POST /avaliacoes
+
+```json
 {
     "usuarioId": 2,
     "livroId": 1,
     "nota": 5,
     "descricao": "Livro excelente"
 }
+```
 
 Resposta:
 
+```json
 {
     "id": 1,
     "usuarioId": 2,
@@ -120,19 +178,32 @@ Resposta:
     "nota": 5,
     "descricao": "Livro excelente"
 }
-9. Avaliar outro livro
-POST /avaliacoes
+```
+
+---
+
+## 9. Avaliar outro livro
+
+### POST /avaliacoes
+
+```json
 {
     "usuarioId": 2,
     "livroId": 2,
     "nota": 4,
     "descricao": "Muito bom"
 }
-10. Listar todas as avaliações
-GET /avaliacoes
+```
+
+---
+
+## 10. Listar todas as avaliações
+
+### GET /avaliacoes
 
 Resposta:
 
+```json
 [
     {
         "id": 1,
@@ -149,11 +220,17 @@ Resposta:
         "descricao": "Muito bom"
     }
 ]
-11. Buscar usuário específico
-GET /usuarios/2
+```
+
+---
+
+## 11. Buscar usuário específico
+
+### GET /usuarios/2
 
 Retorno esperado:
 
+```json
 {
     "id": 2,
     "nome": "Maria",
@@ -169,11 +246,17 @@ Retorno esperado:
         }
     ]
 }
-12. Buscar livro específico
-GET /livros/1
+```
+
+---
+
+## 12. Buscar livro específico
+
+### GET /livros/1
 
 Retorno esperado:
 
+```json
 {
     "id": 1,
     "nome": "Pequeno Príncipe",
@@ -188,9 +271,17 @@ Retorno esperado:
         }
     ]
 }
-Testes de regra de negócio
-Usuário comum tentando criar livro
-POST /livros
+```
+
+---
+
+# Testes de regra de negócio
+
+## Usuário comum tentando criar livro
+
+### POST /livros
+
+```json
 {
     "usuarioId": 2,
     "nome": "Dom Casmurro",
@@ -198,23 +289,38 @@ POST /livros
     "editora": "ABC",
     "genero": "Romance"
 }
+```
 
 Resposta:
 
+```json
 {
     "erro": "Usuário não é administrador"
 }
-Avaliar o mesmo livro duas vezes
-POST /avaliacoes
+```
+
+---
+
+## Avaliar o mesmo livro duas vezes
+
+### POST /avaliacoes
+
+```json
 {
     "usuarioId": 2,
     "livroId": 1,
     "nota": 3,
     "descricao": "Tentando avaliar novamente"
 }
+```
 
 Resposta:
 
+```json
 {
     "erro": "Usuário já avaliou esse livro"
 }
+```
+
+---
+
