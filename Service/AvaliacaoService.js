@@ -1,4 +1,3 @@
-let ID = 1
 class AvaliacaoService {
 
     constructor(avaliacaoRepository, usuarioRepository, livroRepository) {
@@ -21,6 +20,17 @@ class AvaliacaoService {
 
         if (!dados.usuarioId) {
             throw new Error("Usuário obrigatório");
+        }
+
+        if (!dados.livroId) {
+            throw new Error("Livro obrigatório");
+        }
+
+        const livroExiste = 
+            await this.livroRepository.buscarPorId(dados.livroId);
+            
+        if (!livroExiste) {
+            throw new Error("Livro não encontrado");
         }
 
 
@@ -46,13 +56,11 @@ class AvaliacaoService {
         }
 
         const novaAvaliacao = {
-            id: ID,
             livroId: dados.livroId,
             nota: dados.nota,
             descricao: dados.descricao,
             usuarioId: dados.usuarioId
         };
-        ID++
         return await this.avaliacaoRepository.criar(novaAvaliacao);
     }
 
