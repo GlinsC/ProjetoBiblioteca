@@ -28,8 +28,6 @@
       <section class="card">
         <h2>Nova avaliação</h2>
         <p>Crie uma avaliação associada a um usuário e a um livro.</p>
-        <label class="label" for="usuarioId">ID do usuário</label>
-        <input class="input" id="usuarioId" type="number" placeholder="2" />
         <label class="label" for="livroId">ID do livro</label>
         <input class="input" id="livroId" type="number" placeholder="1" />
         <label class="label" for="nota">Nota</label>
@@ -50,12 +48,26 @@
       </section>
     </div>
 
-    <section class="card">
-      <h2>Listar avaliações</h2>
-      <p>Veja todas as avaliações já cadastradas.</p>
-      <button class="secondary" type="button" onclick="listarAvaliacoes()">Listar avaliações</button>
-      <div id="listaStatus" class="status">Nenhuma consulta feita ainda.</div>
-      <div id="avaliacoesList" class="list"></div>
+<section class="card">
+      <h2>Listagem de avaliações</h2>
+      <p>Veja todas as avaliações já cadastradas e a sua respetiva nota.</p>
+      
+      <div class="table-wrap" style="margin-top:10px;">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Usuário</th>
+              <th>Livro</th>
+              <th>Nota</th>
+              <th>Descrição</th>
+            </tr>
+          </thead>
+          <tbody id="avaliacoesList"></tbody>
+        </table>
+      </div>
+      
+      <div id="listaStatus" class="status" style="margin-top:10px;">Aguardando consulta.</div>
     </section>
   </main>
 
@@ -73,12 +85,24 @@
       return { response, data };
     }
 
-    async function criarAvaliacao(){
+    async function criarAvaliacao() {
       try {
-        const { data } = await api('/api/avaliacoes', { method:'POST', body: JSON.stringify({ usuarioId:Number(document.getElementById('usuarioId').value), livroId:Number(document.getElementById('livroId').value), nota:Number(document.getElementById('nota').value), descricao:document.getElementById('descricao').value }) });
+        // A chamada à API é mantida, apenas removemos o usuarioId do JSON
+        const { data } = await api('/api/avaliacoes', { 
+            method: 'POST', 
+            body: JSON.stringify({ 
+                livroId: Number(document.getElementById('livroId').value), 
+                nota: Number(document.getElementById('nota').value), 
+                descricao: document.getElementById('descricao').value 
+            }) 
+        });
+        
         setStatus('avaliacaoStatus', 'Avaliação criada com sucesso.', true);
-        listarAvaliacoes();
-      } catch (e) { setStatus('avaliacaoStatus', e.message, false); }
+        listarAvaliacoes(); // Recarrega a tabela
+        
+      } catch (e) { 
+        setStatus('avaliacaoStatus', e.message, false); 
+      }
     }
 
     async function listarAvaliacoes(){
@@ -97,6 +121,12 @@
         listarAvaliacoes();
       } catch (e) { setStatus('deleteStatus', e.message, false); }
     }
+    // Automação: Carrega a tabela assim que a tela abre
+    document.addEventListener("DOMContentLoaded", () => {
+        if (typeof listarAvaliacoes === 'function') {
+            listarAvaliacoes();
+        }
+    });
   </script>
 </body>
 </html>

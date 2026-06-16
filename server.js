@@ -106,6 +106,8 @@ const livroController =
     ROUTES
 */
 
+app.use("/", webRouter);
+
 app.use(
     "/api/usuarios",
     usuarioRoutes(usuarioController)

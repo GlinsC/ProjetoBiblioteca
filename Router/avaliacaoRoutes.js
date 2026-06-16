@@ -7,6 +7,7 @@ module.exports = (avaliacaoController) => {
 
     router.post("/", verificarToken, avaliacaoController.criar);
     router.get("/", verificarToken, avaliacaoController.listar);
+    router.delete('/:id', verificarToken, avaliacaoController.deletar);
 
     return router;
 };

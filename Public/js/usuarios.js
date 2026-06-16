@@ -1,12 +1,7 @@
-async function carregarUsuarios() {
-
-    const resposta =
-        await fetch("/api/usuarios");
-
-    const usuarios =
-        await resposta.json();
-
-    console.log(usuarios);
-}
-
-carregarUsuarios();
+// Aguarda o navegador carregar o HTML e as funções escritas pela equipe no EJS
+document.addEventListener("DOMContentLoaded", () => {
+    // Dispara automaticamente a função visual da equipe
+    if (typeof listarUsuarios === 'function') {
+        listarUsuarios();
+    }
+});

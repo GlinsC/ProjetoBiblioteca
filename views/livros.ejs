@@ -28,8 +28,6 @@
       <section class="card">
         <h2>Criar livro</h2>
         <p>Somente usuários administradores autenticados podem criar livros.</p>
-        <label class="label" for="usuarioId">ID do usuário admin</label>
-        <input class="input" id="usuarioId" type="number" placeholder="1" />
         <label class="label" for="nome">Nome</label>
         <input class="input" id="nome" type="text" placeholder="Pequeno Príncipe" />
         <label class="label" for="autor">Autor</label>
@@ -71,12 +69,24 @@
     }
     function setStatus(id, text, ok=true){ const el=document.getElementById(id); el.style.color=ok?'#fcd34d':'#fecaca'; el.textContent=text; }
 
-    async function criarLivro(){
+async function criarLivro() {
       try {
-        const { data } = await api('/api/livros', { method:'POST', body: JSON.stringify({ usuarioId:Number(document.getElementById('usuarioId').value), nome:document.getElementById('nome').value, autor:document.getElementById('autor').value, editora:document.getElementById('editora').value, genero:document.getElementById('genero').value }) });
+        const { data } = await api('/api/livros', { 
+            method: 'POST', 
+            body: JSON.stringify({ 
+                nome: document.getElementById('nome').value, 
+                autor: document.getElementById('autor').value, 
+                editora: document.getElementById('editora').value, 
+                genero: document.getElementById('genero').value 
+            }) 
+        });
+        
         setStatus('livroStatus', 'Livro criado: ' + data.nome, true);
-        listarLivros();
-      } catch (e) { setStatus('livroStatus', e.message, false); }
+        listarLivros(); // Recarrega a tabela automaticamente
+        
+      } catch (e) { 
+        setStatus('livroStatus', e.message, false); 
+      }
     }
 
     async function listarLivros(){
@@ -86,6 +96,12 @@
         setStatus('listaStatus', 'Livros carregados: ' + data.length, true);
       } catch (e) { setStatus('listaStatus', e.message, false); }
     }
+    // Automação: Carrega a tabela assim que a tela abre
+    document.addEventListener("DOMContentLoaded", () => {
+        if (typeof listarLivros === 'function') {
+            listarLivros();
+        }
+    });
   </script>
 </body>
 </html>

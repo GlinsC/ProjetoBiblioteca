@@ -4,23 +4,18 @@ class LivroController {
         this.livroService = livroService;
     }
 
-    criar = async (req, res) => {
-
+criar = async (req, res) => {
         try {
+            const dadosDoLivro = { ...req.body };
 
-            const resultado =
-                await this.livroService.criar(req.body);
+            // Não pode ser req.body.usuarioId!
+            dadosDoLivro.usuarioId = req.usuario.id;
 
+            const resultado = await this.livroService.criar(dadosDoLivro);
             return res.status(201).json(resultado);
-
         } catch (error) {
-
-            return res.status(400).json({
-                erro: error.message
-            });
-
+            return res.status(400).json({ erro: error.message });
         }
-
     };
 
 deletar = async (req, res) => {
@@ -34,12 +29,12 @@ deletar = async (req, res) => {
     };
     
     listar = async (req, res) => {
-
-        const livros =
-            await this.livroService.listar();
-
-        return res.json(livros);
-
+        try {
+            const livros = await this.livroService.listar();
+            return res.json(livros);
+        } catch (error) {
+            return res.status(500).json({ erro: "Erro interno ao buscar livros" });
+        }
     };
 
     buscarPorId = async (req, res) => {

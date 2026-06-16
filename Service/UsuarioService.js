@@ -38,7 +38,13 @@ class UsuarioService {
     }
 
     async listar() {
-        return await this.usuarioRepository.listar();
+        const usuarios = await this.usuarioRepository.listar();
+        
+        // Remove o campo 'senha' de todos os objetos antes de enviar para o front-end
+        return usuarios.map(usuario => {
+            const { senha, ...usuarioSeguro } = usuario;
+            return usuarioSeguro;
+        });
     }
 
     async buscarPorId(id) {

@@ -5,7 +5,7 @@ module.exports = (livroController) => {
 
     const router = express.Router();
 
-    router.post("/", verificarToken, exigirAdmin, livroController.criar);
+    router.post('/', verificarToken, exigirAdmin, livroController.criar);
 
     router.get("/", verificarToken, livroController.listar);
 

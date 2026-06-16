@@ -17,10 +17,9 @@ class LivroService {
     }
 
     async criar(dados) {
-
         const usuario =
             await this.usuarioRepository.buscarPorId(
-                dados.id
+                dados.usuarioId
             );
 
         if (!usuario) {
@@ -53,6 +52,7 @@ class LivroService {
             editora: dados.editora,
             genero: dados.genero
         };
+        
         return await this.livroRepository.criar(novoLivro);
     }
 

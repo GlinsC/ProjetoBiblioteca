@@ -62,6 +62,37 @@ class AvaliacaoRepository {
         });
     }
 
+    async buscarPorId(id) {
+        return new Promise((resolve, reject) => {
+            db.get(
+                "SELECT * FROM avaliacoes WHERE id = ?",
+                [id],
+                (err, row) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    // Retorna a linha encontrada ou null se não existir
+                    resolve(row || null);
+                }
+            );
+        });
+    }
+
+    async deletar(id) {
+        return new Promise((resolve, reject) => {
+            db.run(
+                "DELETE FROM avaliacoes WHERE id = ?",
+                [id],
+                function (err) {
+                    if (err) {
+                        return reject(err);
+                    }
+                    // this.changes retorna o número de linhas afetadas pelo DELETE
+                    resolve(this.changes > 0);
+                }
+            );
+        });
+    }
 }
 
 module.exports = AvaliacaoRepository;
