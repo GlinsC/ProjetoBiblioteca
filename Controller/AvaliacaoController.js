@@ -36,6 +36,22 @@ class AvaliacaoController {
 
     };
 
+    deletar = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const usuarioId = req.usuario.id;
+            const isAdmin = req.usuario.admin;
+
+            await this.avaliacaoService.deletar(id, usuarioId, isAdmin);
+
+            return res.status(200).json({ mensagem: "Avaliação removida com sucesso" });
+        } catch (error) {
+            // Em engenharia REST, falhas de permissão devolvem o código HTTP 403 (Forbidden)
+            const status = error.message.includes("Acesso negado") ? 403 : 400;
+            return res.status(status).json({ erro: error.message });
+        }
+    };
+
 }
 
 module.exports = AvaliacaoController;

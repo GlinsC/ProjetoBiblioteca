@@ -48,12 +48,26 @@
       </section>
     </div>
 
-    <section class="card">
-      <h2>Listar avaliações</h2>
-      <p>Veja todas as avaliações já cadastradas.</p>
-      <button class="secondary" type="button" onclick="listarAvaliacoes()">Listar avaliações</button>
-      <div id="listaStatus" class="status">Nenhuma consulta feita ainda.</div>
-      <div id="avaliacoesList" class="list"></div>
+<section class="card">
+      <h2>Listagem de avaliações</h2>
+      <p>Veja todas as avaliações já cadastradas e a sua respetiva nota.</p>
+      
+      <div class="table-wrap" style="margin-top:10px;">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Usuário</th>
+              <th>Livro</th>
+              <th>Nota</th>
+              <th>Descrição</th>
+            </tr>
+          </thead>
+          <tbody id="avaliacoesList"></tbody>
+        </table>
+      </div>
+      
+      <div id="listaStatus" class="status" style="margin-top:10px;">Aguardando consulta.</div>
     </section>
   </main>
 
