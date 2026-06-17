@@ -123,6 +123,8 @@ app.use(
     livroRoutes(livroController)
 );
 
-app.listen(3000, () => {
-    console.log("Servidor rodando");
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+    console.log("Servidor rodando na porta ${port}");
 });
